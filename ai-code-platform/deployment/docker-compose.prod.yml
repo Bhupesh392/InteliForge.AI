@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - ai-platform
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/aiplatform
+    depends_on:
+      - db
+    networks:
+      - ai-platform
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=aiplatform
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ai-platform
+
+volumes:
+  postgres_data:
+
+networks:
+  ai-platform:
+    driver: bridge

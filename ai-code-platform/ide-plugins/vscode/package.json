@@ -1,0 +1,186 @@
+{
+  "name": "ai-code-platform",
+  "displayName": "AI Code Platform",
+  "description": "AI-Enhanced Code Generation, Testing, and Review for VS Code",
+  "version": "1.0.0",
+  "publisher": "ai-code-platform",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Testing",
+    "Linters"
+  ],
+  "keywords": [
+    "ai",
+    "code generation",
+    "testing",
+    "code review",
+    "productivity"
+  ],
+  "activationEvents": [
+    "onCommand:aiCodePlatform.generateCode",
+    "onCommand:aiCodePlatform.generateTests",
+    "onCommand:aiCodePlatform.reviewCode",
+    "onCommand:aiCodePlatform.generateDocs"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiCodePlatform.generateCode",
+        "title": "Generate Code from Description",
+        "category": "AI Code Platform"
+      },
+      {
+        "command": "aiCodePlatform.generateTests",
+        "title": "Generate Tests for Current File",
+        "category": "AI Code Platform"
+      },
+      {
+        "command": "aiCodePlatform.reviewCode",
+        "title": "Review Current File",
+        "category": "AI Code Platform"
+      },
+      {
+        "command": "aiCodePlatform.generateDocs",
+        "title": "Generate Documentation",
+        "category": "AI Code Platform"
+      },
+      {
+        "command": "aiCodePlatform.openDashboard",
+        "title": "Open AI Code Platform Dashboard",
+        "category": "AI Code Platform"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "aiCodePlatform.generateCode",
+          "group": "aiCodePlatform",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "aiCodePlatform.generateTests",
+          "group": "aiCodePlatform",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "aiCodePlatform.reviewCode",
+          "group": "aiCodePlatform",
+          "when": "editorTextFocus"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "aiCodePlatform.generateTests",
+          "group": "aiCodePlatform",
+          "when": "resourceExtname =~ /\\.(py|js|ts|java|cpp|go|rs|cs|php)$/"
+        },
+        {
+          "command": "aiCodePlatform.reviewCode",
+          "group": "aiCodePlatform",
+          "when": "resourceExtname =~ /\\.(py|js|ts|java|cpp|go|rs|cs|php)$/"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "aiCodePlatform.generateCode",
+        "key": "ctrl+alt+g",
+        "mac": "cmd+alt+g",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "aiCodePlatform.generateTests",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "aiCodePlatform.reviewCode",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "AI Code Platform",
+      "properties": {
+        "aiCodePlatform.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "AI Code Platform API URL"
+        },
+        "aiCodePlatform.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API Key for authentication"
+        },
+        "aiCodePlatform.autoReview": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically review code on save"
+        },
+        "aiCodePlatform.defaultLanguage": {
+          "type": "string",
+          "default": "python",
+          "enum": [
+            "python",
+            "javascript",
+            "typescript",
+            "java",
+            "cpp",
+            "go",
+            "rust",
+            "csharp",
+            "php"
+          ],
+          "description": "Default programming language for code generation"
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "aiCodePlatformView",
+          "name": "AI Code Platform",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiCodePlatform",
+          "title": "AI Code Platform",
+          "icon": "$(robot)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4",
+    "@vscode/test-electron": "^2.2.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  }
+}

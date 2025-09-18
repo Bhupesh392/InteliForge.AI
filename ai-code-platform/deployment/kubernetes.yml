@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-platform-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-platform-frontend
+  template:
+    metadata:
+      labels:
+        app: ai-platform-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ai-platform-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://ai-platform-backend:8000"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-platform-frontend-service
+spec:
+  selector:
+    app: ai-platform-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-platform-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-platform-backend
+  template:
+    metadata:
+      labels:
+        app: ai-platform-backend
+    spec:
+      containers:
+      - name: backend
+        image: ai-platform-backend:latest
+        ports:
+        - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-platform-backend
+spec:
+  selector:
+    app: ai-platform-backend
+  ports:
+  - port: 8000
+    targetPort: 8000
