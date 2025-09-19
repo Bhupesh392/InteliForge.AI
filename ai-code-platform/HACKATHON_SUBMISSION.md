@@ -3,8 +3,6 @@
 ## 🎯 Executive Summary
 
 **Name**: Bhupesh Sharma
-**EmployeeId**: 2370090
-**Project**: 51. AI-Enhanced Code Generation and Review Platform  
 **Submission Date**: September 2025  
 **Demo URL**: https://ai-code-platform-demo.com  
 **Repository**: https://github.com/ai-code-innovators/ai-code-platform  
